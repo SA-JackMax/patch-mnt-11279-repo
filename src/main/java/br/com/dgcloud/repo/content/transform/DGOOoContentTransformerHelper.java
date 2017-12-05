@@ -20,6 +20,7 @@ import net.sf.jooreports.openoffice.connection.OpenOfficeException;
 
 import org.alfresco.error.AlfrescoRuntimeException;
 import org.alfresco.repo.content.MimetypeMap;
+import org.alfresco.repo.content.transform.ContentTransformerHelper;
 import org.alfresco.repo.content.transform.TransformerDebug;
 import org.alfresco.service.cmr.repository.ContentIOException;
 import org.alfresco.service.cmr.repository.ContentReader;
@@ -40,7 +41,7 @@ import org.springframework.util.FileCopyUtils;
  * A class providing basic OOo-related functionality shared by both
  * {@link ContentTransformer}s and {@link ContentTransformerWorker}s.
  */
-public abstract class OOoContentTransformerHelper extends ContentTransformerHelper
+public abstract class DGOOoContentTransformerHelper extends ContentTransformerHelper
 {
     private String documentFormatsConfiguration;
     private DocumentFormatRegistry formatRegistry;
@@ -324,11 +325,15 @@ public abstract class OOoContentTransformerHelper extends ContentTransformerHelp
         // MNT-11279 fix. Because of the creating temp files for transformations the document's header with file name field
         // could be changed to temporary file's name.
         // Get the original file name which was on upload.
-        String origFileName = getOriginalFileName(options);
-        if (origFileName == null)
-        {
-           origFileName = "TemporaryFile-" + GUID.generate(); 
-        }
+        // String origFileName = getOriginalFileName(options);
+		// if (origFileName == null)
+		// {
+		// 		origFileName = "TemporaryFile-" + GUID.generate(); 
+		// }
+        
+        // DGCloud: Applied proposed fix from https://issues.alfresco.com/jira/browse/MNT-15359 
+        String origFileName = "TempFile-" + GUID.generate() + "." + sourceExtension;
+        
         // Create a temp folder and put source and target files into it. (i.e. tempFromFile and tempToFile will be placed
         // into such folder)
         File tempSubfolder = new File(TempFileProvider.getTempDir() + File.separator +
