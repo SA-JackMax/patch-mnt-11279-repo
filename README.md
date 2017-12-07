@@ -9,7 +9,7 @@ Described at issue [MNT-15359](https://issues.alfresco.com/jira/browse/MNT-15359
 When a Microsoft Office document containing accented characters in the name is uploaded into Share, the transformation fails with the message:
 conversion failed; com.sun.star.lang.IllegalArgumentException: Unsupported URL <file:///opt/alfresco/tomcat/temp/Alfresco/DEMISS%C3%95ES%20JUNHO.XLSX-OpenOfficeContentTransformer-OpenOfficeContentTransformer-1512413739507/DEMISS%C3%95ES%20JUNHO.XLSX>: "type detection failed" 
 
-This patch changes the way the temporary file is writen in the server's disk.
+This patch changes the way the temporary file is writen in the server's disk, and **should be used only with version 5.1.g**, as this is a backport of code from already fixed more recent versions of Alfresco. 
 
 The code is based on the proposed fix from https://issues.alfresco.com/jira/browse/MNT-15359, in combination with the current code from https://github.com/Alfresco/community-edition-old/blob/master/projects/repository/source/java/org/alfresco/repo/content/transform/OOoContentTransformerHelper.java#L354 
 
